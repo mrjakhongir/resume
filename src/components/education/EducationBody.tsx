@@ -1,18 +1,19 @@
-import { useState } from 'react';
 import AddBtn from '../AddBtn';
 import NewEducation from './newEducation/NewEducation';
-import { Education } from '../../lib/definitions';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { setEducation } from '../../redux/educationSlice';
 
 type EducationBodyProps = {
 	openBody: boolean;
 };
 
 function EducationBody({ openBody }: EducationBodyProps) {
-	const [savedEducation, setSavedEducation] = useState<Education[]>([]);
-
+	const education = useSelector((state: RootState) => state.education);
+	const dispatch = useDispatch();
 	function addEducation() {
 		const newEducation = {
-			id: savedEducation.length,
+			id: education.length,
 			institution: '',
 			location: '',
 			degreeType: '',
@@ -21,7 +22,7 @@ function EducationBody({ openBody }: EducationBodyProps) {
 			gradYear: '',
 		};
 
-		setSavedEducation([...savedEducation, newEducation]);
+		dispatch(setEducation([...education, newEducation]));
 	}
 	return (
 		<div
@@ -29,12 +30,8 @@ function EducationBody({ openBody }: EducationBodyProps) {
 				openBody && 'pt-2 pb-3 px-4 h-auto'
 			}`}>
 			<ul className='flex flex-col gap-5'>
-				{savedEducation.map((edu) => (
-					<NewEducation
-						key={edu.id}
-						edu={edu}
-						setSavedEducation={setSavedEducation}
-					/>
+				{education.map((edu) => (
+					<NewEducation key={edu.id} edu={edu} />
 				))}
 			</ul>
 			<AddBtn content='Education' addItem={addEducation} />

@@ -4,8 +4,9 @@ import { RootState } from '../../redux/store';
 function ViewCV() {
 	const userInfo = useSelector((state: RootState) => state.userInfo);
 	const links = useSelector((state: RootState) => state.links);
+	const education = useSelector((state: RootState) => state.education);
 	return (
-		<main className='flex-[5] h-full overflow-y-scroll bg-slate-100 pt-1 pb-10 px-20'>
+		<main className='flex-[5] h-full overflow-y-scroll bg-slate-100 pt-4 pb-10 px-16'>
 			<div className='h-[841px] bg-white py-6 px-10 text-slate-600 font-normal'>
 				<div className='mb-3'>
 					<h1 className='text-[40pt] text-center font-thin'>
@@ -35,21 +36,27 @@ function ViewCV() {
 					</div>
 				</div>
 				<div>
-					<h2 className='uppercase text-[16pt] font-semibold'>Education</h2>
-					<div className='mb-3'>
-						<div className='flex items-center justify-between'>
-							<span className='uppercase text-[10pt] text-slate-900 font-semibold'>
-								BuxMti
-							</span>
-							<span>September 2016 - July 2020</span>
+					{education.length > 0 && (
+						<h2 className='uppercase text-[16pt] font-semibold'>Education</h2>
+					)}
+					{education.map((edu) => (
+						<div key={edu.id} className='mb-3'>
+							<div className='flex items-center justify-between'>
+								<span className='uppercase text-[10pt] text-slate-900 font-semibold'>
+									{edu.institution}
+								</span>
+								<span>
+									{edu.startYear} - {edu.gradYear}
+								</span>
+							</div>
+							<div className='flex items-center justify-between'>
+								<span className='uppercase text-[10pt] text-slate-900 font-semibold'>
+									{edu.field} {edu.degreeType}
+								</span>
+								<span>{edu.location}</span>
+							</div>
 						</div>
-						<div className='flex items-center justify-between'>
-							<span className='uppercase text-[10pt] text-slate-900 font-semibold'>
-								computer science bachelors
-							</span>
-							<span>Bukhara</span>
-						</div>
-					</div>
+					))}
 				</div>
 			</div>
 		</main>

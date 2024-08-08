@@ -1,6 +1,9 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import Input from '../../input/Input';
 import { Education } from '../../../lib/definitions';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../redux/store';
+import { setEducation } from '../../../redux/educationSlice';
 
 const inputFileds = [
 	{
@@ -43,11 +46,12 @@ const inputFileds = [
 
 type NewEducationProps = {
 	edu: Education;
-	setSavedEducation: React.Dispatch<React.SetStateAction<Education[]>>;
 };
 
-function NewEducation({ edu, setSavedEducation }: NewEducationProps) {
+function NewEducation({ edu }: NewEducationProps) {
 	const [openBody, setOpenBody] = useState(false);
+	const education = useSelector((state: RootState) => state.education);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -57,11 +61,10 @@ function NewEducation({ edu, setSavedEducation }: NewEducationProps) {
 
 	function handleChange(e: ChangeEvent<HTMLInputElement>) {
 		const { name, value } = e.target;
-		setSavedEducation((prevState) =>
-			prevState.map((item) =>
-				item.id === edu.id ? { ...item, [name]: value } : item
-			)
+		const updated = education.map((item) =>
+			item.id === edu.id ? { ...item, [name]: value } : item
 		);
+		dispatch(setEducation(updated));
 	}
 
 	return (
@@ -75,11 +78,10 @@ function NewEducation({ edu, setSavedEducation }: NewEducationProps) {
 				<div className='flex items-center gap-5'>
 					<img
 						className='cursor-pointer transition-all active:scale-90'
-						onClick={() =>
-							setSavedEducation((prevEdu) =>
-								prevEdu.filter((item) => item.id !== edu.id)
-							)
-						}
+						onClick={() => {
+							const updated = education.filter((item) => item.id !== edu.id);
+							dispatch(setEducation(updated));
+						}}
 						src='/trash.svg'
 						alt='trash can'
 						width={13}
