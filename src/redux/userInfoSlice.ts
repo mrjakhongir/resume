@@ -14,7 +14,7 @@ const userInfoSlice = createSlice({
 	initialState,
 	reducers: {
 		setUserInfo: (state, action) => {
-			return action.payload;
+			return action.payload || state;
 		},
 	},
 });

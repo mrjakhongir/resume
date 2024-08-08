@@ -8,7 +8,7 @@ const linksSlice = createSlice({
 	initialState,
 	reducers: {
 		setLinks: (state, action) => {
-			return action.payload;
+			return action.payload || state;
 		},
 	},
 });

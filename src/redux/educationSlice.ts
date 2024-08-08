@@ -8,7 +8,7 @@ const educationSlice = createSlice({
 	initialState,
 	reducers: {
 		setEducation: (state, action) => {
-			return action.payload;
+			return action.payload || state;
 		},
 	},
 });
