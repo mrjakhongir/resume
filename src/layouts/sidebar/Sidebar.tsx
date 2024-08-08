@@ -1,8 +1,8 @@
-import Education from '../../components/Education';
 import Experience from '../../components/Experience';
 import Skills from '../../components/Skills';
 import Certifications from '../../components/Certifications';
 import PersonalInfo from '../../components/personalInfo/PersonalInfo';
+import Education from '../../components/education/Education';
 
 function Sidebar() {
 	return (

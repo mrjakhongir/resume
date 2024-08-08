@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import AccordionLabel from './AccordionLabel';
+import AccordionLabel from '../AccordionLabel';
 
 function Education() {
 	const [openBody, setOpenBody] = useState(false);
