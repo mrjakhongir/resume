@@ -1,11 +1,13 @@
+import { ChangeEvent } from 'react';
 import { InputFiled } from '../../lib/definitions';
 import InputLabel from './InputLabel';
 
 type InputProps = {
 	field: InputFiled;
+	handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
-function Input({ field }: InputProps) {
+function Input({ field, handleChange }: InputProps) {
 	return (
 		<li className='flex flex-col gap-2'>
 			<InputLabel content={field} />
@@ -14,6 +16,7 @@ function Input({ field }: InputProps) {
 				type={field.type}
 				placeholder={field.placeholder}
 				name={field.name}
+				onChange={handleChange}
 			/>
 		</li>
 	);

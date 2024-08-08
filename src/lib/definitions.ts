@@ -10,3 +10,22 @@ export interface Link {
 	link: string;
 	site: string;
 }
+export interface UserInfo {
+	fName: string;
+	lName: string;
+	email: string;
+	phone: string;
+	address: string;
+	jobTitle: string;
+	links: Link[];
+}
+
+export interface Education {
+	id: number;
+	institution: string;
+	location: string;
+	degreeType: string;
+	field: string;
+	startYear: string;
+	gradYear: string;
+}

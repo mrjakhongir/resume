@@ -1,11 +1,15 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from '../../../lib/definitions';
+import { setLinks } from '../../../redux/linksSlice';
+import { RootState } from '../../../redux/store';
 
 type NewLinkProps = {
-	setSavedLinks: React.Dispatch<React.SetStateAction<Link[]>>;
 	link: Link;
 };
 
-function NewLink({ setSavedLinks, link }: NewLinkProps) {
+function NewLink({ link }: NewLinkProps) {
+	const dispatch = useDispatch();
+	const links = useSelector((state: RootState) => state.links);
 	return (
 		<div className='flex items-center gap-4 mb-5'>
 			<div className='grid grid-cols-2 gap-4'>
@@ -15,41 +19,38 @@ function NewLink({ setSavedLinks, link }: NewLinkProps) {
 					placeholder='Your link here'
 					name='link'
 					value={link.link}
-					onChange={(e) =>
-						setSavedLinks((prevLinks) =>
-							prevLinks.map((item) =>
-								item.id === link.id ? { ...item, link: e.target.value } : item
-							)
-						)
-					}
+					onChange={(e) => {
+						const updated = links.map((item) =>
+							item.id === link.id ? { ...item, link: e.target.value } : item
+						);
+						dispatch(setLinks(updated));
+					}}
 				/>
 				<select
 					className='flex-[5] px-3 bg-transparent border border-slate-400 rounded-lg self-stretch'
 					name='site'
 					value={link.site || 'Select...'}
-					onChange={(e) =>
-						setSavedLinks((prevLinks) =>
-							prevLinks.map((item) =>
-								item.id === link.id ? { ...item, site: e.target.value } : item
-							)
-						)
-					}>
+					onChange={(e) => {
+						const updated = links.map((item) =>
+							item.id === link.id ? { ...item, site: e.target.value } : item
+						);
+						dispatch(setLinks(updated));
+					}}>
 					<option disabled hidden>
 						Select...
 					</option>
-					<option value='GitHub'>GitHub</option>
-					<option value='LinkedIn'>LinkedIn</option>
-					<option value='Hacker Rank'>Hacker Rank</option>
-					<option value='Portfolio'>Portfolio</option>
+					<option value='GitHub '>GitHub </option>
+					<option value='LinkedIn '>LinkedIn</option>
+					<option value='Hacker Rank '>Hacker Rank</option>
+					<option value='Portfolio '>Portfolio</option>
 				</select>
 			</div>
 			<img
-				className='flex-[2] cursor-pointer transition-all active:scale-90'
-				onClick={() =>
-					setSavedLinks((prevLinks) =>
-						prevLinks.filter((item) => item.id !== link.id)
-					)
-				}
+				className='cursor-pointer transition-all active:scale-90'
+				onClick={() => {
+					const updated = links.filter((item) => item.id !== link.id);
+					dispatch(setLinks(updated));
+				}}
 				src='/trash.svg'
 				alt='trash can'
 				width={13}

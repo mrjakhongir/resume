@@ -1,28 +1,29 @@
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import AddBtn from '../../AddBtn';
 import BodyTitle from '../../BodyTitle';
 import NewLink from './NewLink';
-import { Link } from '../../../lib/definitions';
+import { RootState } from '../../../redux/store';
+import { setLinks } from '../../../redux/linksSlice';
 
 function Links() {
-	const [savedLinks, setSavedLinks] = useState<Link[]>([]);
+	const links = useSelector((state: RootState) => state.links);
+	const dispatch = useDispatch();
 
 	function addItem() {
-		const emptyLink = { id: savedLinks.length, link: '', site: '' };
-		if (savedLinks.length < 5) {
-			setSavedLinks([...savedLinks, emptyLink]);
+		const emptyLink = { id: links.length, link: '', site: '' };
+		if (links.length < 5) {
+			dispatch(setLinks([...links, emptyLink]));
 		}
 	}
-
 	return (
 		<div>
-			<BodyTitle content='Links' counter={`(${savedLinks.length}/5)`} />
-			{savedLinks.map((link) => (
-				<NewLink key={link.id} setSavedLinks={setSavedLinks} link={link} />
+			<BodyTitle content='Links' counter={`(${links.length}/5)`} />
+			{links.map((link) => (
+				<NewLink key={link.id} link={link} />
 			))}
 			<AddBtn content='Link' addItem={addItem} />
 		</div>
 	);
-}
+}	
 
 export default Links;

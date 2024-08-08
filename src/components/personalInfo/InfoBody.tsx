@@ -1,6 +1,10 @@
+import { ChangeEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import BodyTitle from '../BodyTitle';
 import Input from '../input/Input';
 import Links from './links/Links';
+import { setUserInfo } from '../../redux/userInfoSlice';
+import { RootState } from '../../redux/store';
 
 type InfoBodyProps = {
 	openBody: boolean;
@@ -46,15 +50,22 @@ const inputFields = [
 ];
 
 function InfoBody({ openBody }: InfoBodyProps) {
+	const userInfo = useSelector((state: RootState) => state.userInfo);
+	const dispatch = useDispatch();
+
+	function handleChange(e: ChangeEvent<HTMLInputElement>) {
+		const { name, value } = e.target;
+		dispatch(setUserInfo({ ...userInfo, [name]: value }));
+	}
 	return (
 		<div
-			className={`h-0 overflow-hidden transition-all duration-200 ${
-				openBody && 'py-2 px-4 h-auto'
+			className={`h-0 overflow-hidden transition-all px-4 duration-200 ${
+				openBody && 'pt-2 pb-3 h-auto'
 			}`}>
 			<BodyTitle content='Personal Info' />
 			<ul className='grid grid-cols-2 gap-x-4 gap-y-5 mb-5'>
 				{inputFields.map((field) => (
-					<Input key={field.name} field={field} />
+					<Input key={field.name} field={field} handleChange={handleChange} />
 				))}
 			</ul>
 			<Links />

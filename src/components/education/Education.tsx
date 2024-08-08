@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import AccordionLabel from '../AccordionLabel';
+import EducationBody from './EducationBody';
 
 function Education() {
 	const [openBody, setOpenBody] = useState(false);
@@ -11,6 +12,7 @@ function Education() {
 				openBody={openBody}
 				setOpenBody={setOpenBody}
 			/>
+			<EducationBody openBody={openBody} />
 		</li>
 	);
 }
